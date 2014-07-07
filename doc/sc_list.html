@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Module sc_list</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module sc_list</h1>
+<ul class="index"><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>
+
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#between-2">between/2</a></td><td>Places a delimiter inbetween every item in the list.</td></tr>
+<tr><td valign="top"><a href="#extrema-1">extrema/1</a></td><td><span style="color: green; font-weight: bold;">Stoch</span> Returns the lowest and highest values in a list of one or more member in the form <code>{Lo,Hi}</code>.</td></tr>
+<tr><td valign="top"><a href="#foldl0-2">foldl0/2</a></td><td>A traditional convenience pre-loader for <code>foldl</code>, for when the initializer is the list's first member.</td></tr>
+<tr><td valign="top"><a href="#foldr0-2">foldr0/2</a></td><td>A traditional convenience pre-loader for <code>foldr</code>, for when the initializer is the list's first member.</td></tr>
+<tr><td valign="top"><a href="#key_duplicate-1">key_duplicate/1</a></td><td><span style="color: green; font-weight: bold;">Stoch, spec</span> Iterates a list of <code>{Count,Term}</code>, producing a list of <code>[Term,Term,...]</code>.</td></tr>
+<tr><td valign="top"><a href="#max-1">max/1</a></td><td>Returns the maximum of a non-empty list of values, type-insensitive.</td></tr>
+<tr><td valign="top"><a href="#min-1">min/1</a></td><td>Returns the minimum of a non-empty list of values, type-insensitive.</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="between-2">between/2</a></h3>
+<div class="spec">
+<p><tt>between(List::list(), Delim::any()) -&gt; list()</tt><br></p>
+</div><p>Places a delimiter inbetween every item in the list. <pre>  1&gt; sc_list:between( [1,2,3], 0 ).
+  [1,0,2,0,3]
+ 
+  2&gt; sc_list:between( [], 0 ).
+  []</pre>
+ 
+  Unit and doc tested.</p>
+
+<h3 class="function"><a name="extrema-1">extrema/1</a></h3>
+<div class="spec">
+<p><tt>extrema(List::nonempty_list()) -&gt; {Low::any(), Hi::any()}</tt><br></p>
+</div><p><span style="color: green; font-weight: bold;">Stoch</span> Returns the lowest and highest values in a list of one or more member in the form <code>{Lo,Hi}</code>.  Undefined over the empty list.  Mixed-type safe; sorts according to type order rules.  <pre>  1&gt; sc:extrema([1,2,3,4]).
+  {1,4}
+ 
+  2&gt; sc:extrema([1,2,3,a,b,c]).
+  {1,c}</pre>
+ 
+  <p>3&gt; sc:extrema( [] ).  
+** exception error: no function clause matching sc:extrema([])'''</p>
+ 
+  Unit, doc and stochastic (min and max are list members) tested.</p>
+
+<h3 class="function"><a name="foldl0-2">foldl0/2</a></h3>
+<div class="spec">
+<p><tt>foldl0(Fun::function(), List::nonempty_list()) -&gt; any()</tt><br></p>
+</div><p>A traditional convenience pre-loader for <code>foldl</code>, for when the initializer is the list's first member. <pre>  1&gt; sc_list:foldl0( fun(Step, Acc) -&gt; Step + Acc end, [2,4,6,8] ).
+  20
+ 
+  2&gt; ForceList = fun(X) when is_integer(X) -&gt; integer_to_list(X);
+  2&gt;                (X)                    -&gt; X end.
+  #Fun&lt;erl_eval.6.106461118&gt;
+ 
+  3&gt; Paren = fun(X,Y) -&gt; "(" ++ ForceList(X) ++ "," ++ ForceList(Y) ++ ")" end.
+  #Fun&lt;erl_eval.12.106461118&gt;
+ 
+  4&gt; Paren(2,3).
+  "(2,3)"
+ 
+  5&gt; Paren(2,"(3,4)").
+  "(2,(3,4))"
+ 
+  6&gt; sc_list:foldl0( Paren, [1,2,3,4,5] ).
+  "(5,(4,(3,(2,1))))"
+ 
+  7&gt; sc_list:foldr0( Paren, [1,2,3,4,5] ).
+  "(2,(3,(4,(5,1))))"</pre>
+ 
+  Unit and doc tested.
+ </p>
+<p><b><font color="red">To do</font></b><ul><li><font color="red">Stochastic match test of foldr0/2 to foldr/3</font></li></ul></p>
+
+<h3 class="function"><a name="foldr0-2">foldr0/2</a></h3>
+<div class="spec">
+<p><tt>foldr0(Fun::function(), List::nonempty_list()) -&gt; any()</tt><br></p>
+</div><p>A traditional convenience pre-loader for <code>foldr</code>, for when the initializer is the list's first member. <pre>  1&gt; sc_list:foldl0( fun(Step, Acc) -&gt; Step + Acc end, [2,4,6,8] ).
+  20
+ 
+  2&gt; ForceList = fun(X) when is_integer(X) -&gt; integer_to_list(X);
+  2&gt;                (X)                    -&gt; X end.
+  #Fun&lt;erl_eval.6.106461118&gt;
+ 
+  3&gt; Paren = fun(X,Y) -&gt; "(" ++ ForceList(X) ++ "," ++ ForceList(Y) ++ ")" end.
+  #Fun&lt;erl_eval.12.106461118&gt;
+ 
+  4&gt; Paren(2,3).
+  "(2,3)"
+ 
+  5&gt; Paren(2,"(3,4)").
+  "(2,(3,4))"
+ 
+  6&gt; sc_list:foldl0( Paren, [1,2,3,4,5] ).
+  "(5,(4,(3,(2,1))))"
+ 
+  7&gt; sc_list:foldr0( Paren, [1,2,3,4,5] ).
+  "(2,(3,(4,(5,1))))"</pre>
+ 
+  Unit and doc tested.
+ </p>
+<p><b><font color="red">To do</font></b><ul><li><font color="red">Stochastic match test of foldr0/2 to foldr/3</font></li></ul></p>
+
+<h3 class="function"><a name="key_duplicate-1">key_duplicate/1</a></h3>
+<div class="spec">
+<p><tt>key_duplicate(KeyList::[{non_neg_integer(), any()}]) -&gt; [any()]</tt><br></p>
+</div><p><span style="color: green; font-weight: bold;">Stoch, spec</span> Iterates a list of <code>{Count,Term}</code>, producing a list of <code>[Term,Term,...]</code>.  <pre>  1&gt; sc:key_duplicate([ {3,bork} ]).
+  [bork,bork,bork]
+ 
+  2&gt; sc:key_duplicate([ {3,sunday}, {2,monster}, {2,truck}, {1,'MADNESS'} ]).
+  [sunday,sunday,sunday,monster,monster,truck,truck,'MADNESS']</pre>
+ 
+  Unit, doc, spec and stochastic (correct length) tested.</p>
+
+<h3 class="function"><a name="max-1">max/1</a></h3>
+<div class="spec">
+<p><tt>max(Name::nonempty_list()) -&gt; any()</tt><br></p>
+</div><p>Returns the maximum of a non-empty list of values, type-insensitive. <pre>  1&gt; sc_list:max( [1, 2, 3] ).
+  3
+ 
+  2&gt; sc_list:max( [1, 2.0, 3] ).
+  3
+ 
+  3&gt; sc_list:max( [1, two, 3] ).
+  two</pre>
+ 
+  Unit and doc tested.</p>
+
+<h3 class="function"><a name="min-1">min/1</a></h3>
+<div class="spec">
+<p><tt>min(Name::nonempty_list()) -&gt; any()</tt><br></p>
+</div><p>Returns the minimum of a non-empty list of values, type-insensitive. <pre>  1&gt; sc_list:min( [1, 2, 3] ).
+  1
+ 
+  2&gt; sc_list:min( [1, 2.0, 3] ).
+  1
+ 
+  3&gt; sc_list:min( [one, 2, three] ).
+  2</pre>
+ 
+  Unit and doc tested.</p>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Jul 7 2014, 01:16:39.</i></p>
+</body>
+</html>

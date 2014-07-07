@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Module sc_math</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module sc_math</h1>
+<ul class="index"><li><a href="#types">Data Types</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>
+
+
+<h2><a name="types">Data Types</a></h2>
+
+<h3 class="typedecl"><a name="type-numeric_list">numeric_list()</a></h3>
+<p><tt>numeric_list() = [number()]</tt></p>
+<p>  All members of a numeric list must be number()s.</p>
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#absolute_difference-2">absolute_difference/2</a></td><td><span style="color:orange;font-style:italic">Stoch untested</span> Takes the absolute value of the difference between the two arguments.</td></tr>
+<tr><td valign="top"><a href="#ceil-1">ceil/1</a></td><td>Equivalent to <a href="#ceiling-1"><tt>ceiling(X)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#ceiling-1">ceiling/1</a></td><td><span style="color: green; font-weight: bold;">Tested</span> Returns the ceiling (round towards positive infinity) of a float.</td></tr>
+<tr><td valign="top"><a href="#distance-2">distance/2</a></td><td>Returns the distance between two values; currently numeric only.</td></tr>
+<tr><td valign="top"><a href="#eq_within-3">eq_within/3</a></td><td>Tests whether two numbers are equal to within a certain tolerance.</td></tr>
+<tr><td valign="top"><a href="#extrema-1">extrema/1</a></td><td><span style="color: green; font-weight: bold;">Tested</span> Returns the lowest and highest values in a list of one or more member in the form <code>{Lo,Hi}</code>.</td></tr>
+<tr><td valign="top"><a href="#floor-1">floor/1</a></td><td><span style="color: green; font-weight: bold;">Tested</span> Takes the floor (round towards negative infinity) of a number.</td></tr>
+<tr><td valign="top"><a href="#gcd-2">gcd/2</a></td><td>Produces the greatest common divisor of two positive integers.</td></tr>
+<tr><td valign="top"><a href="#lcm-2">lcm/2</a></td><td>Produces the least common multiple of two integers.</td></tr>
+<tr><td valign="top"><a href="#list_product-1">list_product/1</a></td><td><span style="color:orange;font-style:italic">Stoch untested</span> Takes the product of all numbers in the list.</td></tr>
+<tr><td valign="top"><a href="#range_scale-1">range_scale/1</a></td><td><span style="color:orange;font-style:italic">Stoch untested</span> Get the scale of a same-sign numeric range.</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="absolute_difference-2">absolute_difference/2</a></h3>
+<div class="spec">
+<p><tt>absolute_difference(A::number(), B::number()) -&gt; number()</tt><br></p>
+</div><p><span style="color:orange;font-style:italic">Stoch untested</span> Takes the absolute value of the difference between the two arguments.  Offered mostly to make dependant code clearer. <pre>  1&gt; sc_math:absolute_difference(1.25, 1).
+  0.25
+ 
+  2&gt; sc_math:absolute_difference(2,1).
+  1
+ 
+  3&gt; sc_math:absolute_difference(1,2).
+  1
+ 
+  4&gt; sc_math:absolute_difference(1,1).
+  0
+ 
+  5&gt; sc_math:absolute_difference(1,-1).
+  2
+ 
+  6&gt; sc_math:absolute_difference(100,35).
+  65</pre>
+ </p>
+<p><b>Introduced in:</b> Version 504</p>
+
+<h3 class="function"><a name="ceil-1">ceil/1</a></h3>
+<div class="spec">
+<p><tt>ceil(X::number()) -&gt; integer()</tt><br></p>
+</div><p>Equivalent to <a href="#ceiling-1"><tt>ceiling(X)</tt></a>.</p>
+
+
+<h3 class="function"><a name="ceiling-1">ceiling/1</a></h3>
+<div class="spec">
+<p><tt>ceiling(X::number()) -&gt; integer()</tt><br></p>
+</div><p><span style="color: green; font-weight: bold;">Tested</span> Returns the ceiling (round towards positive infinity) of a float. <pre>  1&gt; sc_math:ceil(0.5).
+  1
+ 
+  2&gt; sc_math:ceil(0).
+  0
+ 
+  3&gt; sc_math:ceil(0.0).
+  0
+ 
+  4&gt; sc_math:ceil(1.0).
+  1
+ 
+  5&gt; sc_math:ceil(-1.0).
+  -1
+ 
+  6&gt; sc_math:ceil(-1.5).
+  -1
+ 
+  7&gt; sc_math:ceil(-1).
+  -1
+ 
+  8&gt; sc_math:ceil(1).
+  1</pre>
+ 
+  Unit, doc and stochastic property (int as float identity; float always smaller within 1; all results integers) tested.</p>
+
+<h3 class="function"><a name="distance-2">distance/2</a></h3>
+<div class="spec">
+<p><tt>distance(X, Y) -&gt; any()</tt></p>
+</div><p>Returns the distance between two values; currently numeric only.</p>
+
+<h3 class="function"><a name="eq_within-3">eq_within/3</a></h3>
+<div class="spec">
+<p><tt>eq_within(X, Y, Dist) -&gt; any()</tt></p>
+</div><p>Tests whether two numbers are equal to within a certain tolerance.</p>
+
+<h3 class="function"><a name="extrema-1">extrema/1</a></h3>
+<div class="spec">
+<p><tt>extrema(List::list()) -&gt; {Low::any(), Hi::any()}</tt><br></p>
+</div><p><span style="color: green; font-weight: bold;">Tested</span> Returns the lowest and highest values in a list of one or more member in the form <code>{Lo,Hi}</code>.  Undefined over the empty list.  Mixed-type safe; sorts according to type order rules.  <pre>  1&gt; sc_math:extrema([1,2,3,4]).
+  {1,4}
+ 
+  2&gt; sc_math:extrema([1,2,3,a,b,c]).
+  {1,c}</pre>
+ 
+  <p>3&gt; sc_math:extrema( [] ).  
+** exception error: no function clause matching sc_math:extrema([])'''</p>
+ 
+  Unit, doc and stochastic (min and max are list members) tested.</p>
+
+<h3 class="function"><a name="floor-1">floor/1</a></h3>
+<div class="spec">
+<p><tt>floor(X::number()) -&gt; integer()</tt><br></p>
+</div><p><span style="color: green; font-weight: bold;">Tested</span> Takes the floor (round towards negative infinity) of a number.  This is different than <code>erlang:trunc/1</code>, which removes the mantissa, in its
+  handling of negative numbers: trunc diminishes towards zero, not towards negative infinity (note examples 6 and 7 below.) <pre>  1&gt; sc_math:floor(0.5).
+  0
+ 
+  2&gt; sc_math:floor(0).
+  0
+ 
+  3&gt; sc_math:floor(0.0).
+  0
+ 
+  4&gt; sc_math:floor(1.0).
+  1
+ 
+  5&gt; sc_math:floor(-1.0).
+  -1
+ 
+  6&gt; sc_math:floor(-1.5).
+  -2
+ 
+  7&gt; erlang:trunc(-1.5).
+  -1
+ 
+  8&gt; sc_math:floor(-1).
+  -1
+ 
+  9&gt; sc_math:floor(1).
+  1</pre>
+ 
+  Unit, doc and stochastic property (int as float identity; float always larger within 1; all results integers) tested.</p>
+
+<h3 class="function"><a name="gcd-2">gcd/2</a></h3>
+<div class="spec">
+<p><tt>gcd(A, B) -&gt; any()</tt></p>
+</div><p><p>Produces the greatest common divisor of two positive integers.</p>
+ 
+  Why is by-zero undefined?  Because gcd divides both numbers then gcd must
+  not be larger than either number.  Because gcd is the denominator, then if
+  either number is zero, the denominator must not exceed zero, and therefore
+  must be zero.  Division by zero is undefined.  Therefore <code>gcd(0, _)</code> or
+  <code>gcd(_, 0)</code> must be undefined.</p>
+
+<h3 class="function"><a name="lcm-2">lcm/2</a></h3>
+<div class="spec">
+<p><tt>lcm(A, B) -&gt; any()</tt></p>
+</div><p>Produces the least common multiple of two integers.</p>
+
+<h3 class="function"><a name="list_product-1">list_product/1</a></h3>
+<div class="spec">
+<p><tt>list_product(A::<a href="#type-numeric_list">numeric_list()</a>) -&gt; number()</tt><br></p>
+</div><p><span style="color:orange;font-style:italic">Stoch untested</span> Takes the product of all numbers in the list.  Offered mostly to make dependant code clearer. <pre>  1&gt; sc_math:list_product([1,2,5.4]).
+  10.8</pre></p>
+
+<h3 class="function"><a name="range_scale-1">range_scale/1</a></h3>
+<div class="spec">
+<p><tt>range_scale(NumList::<a href="#type-numeric_list">numeric_list()</a>) -&gt; number()</tt><br></p>
+</div><p><span style="color:orange;font-style:italic">Stoch untested</span> Get the scale of a same-sign numeric range.  Gives nonsense results for non-numeric lists, or for lists which have both positive and negative members.  For a numeric list [4,5,6,12], the scale of the range 4..12 is 3:1, which is represented as 3.0 . <pre>  1&gt; sc_math:range_scale([3, 4, 5, 6]).
+  2.0
+ 
+  2&gt; sc_math:range_scale([3, 6]).
+  2.0
+ 
+  3&gt; sc_math:range_scale([6, 5, 3]).
+  2.0
+ 
+  4&gt; sc_math:range_scale([3, 4, 5, 6, 7, 7.5]).
+  2.5
+ 
+  5&gt; sc_math:range_scale([3, 10, 12, 99]).
+  33.0
+ 
+  6&gt; sc_math:range_scale([3, 3, 3]).
+  1.0</pre>
+ 
+  Unit and doc tested.</p>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Jul 7 2014, 01:16:39.</i></p>
+</body>
+</html>

@@ -1,4 +1,4 @@
 %% encoding: UTF-8
 {application,sc}.
 {packages,[]}.
-{modules,[sc]}.
+{modules,[crap_json,sc,sc_list,sc_math]}.
