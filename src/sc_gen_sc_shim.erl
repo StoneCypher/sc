@@ -8,9 +8,12 @@
 -export([
 
     arg_list/1,
+
     fun_forward/3,
     forward_module/1,
-    fun_export/2
+
+    fun_export/2,
+    export_module/1
 
 ]).
 
@@ -49,3 +52,15 @@ forward_module(Mod) ->
 fun_export(Fun, Arity) ->
 
     atom_to_list(Fun) ++ "/" ++ integer_to_list(Arity).
+
+
+
+
+
+export_module(Mod) ->
+
+    Cleaned = lists:usort([ {Fu,Ar} || {Fu, Ar, _, _} <- sc:entrypoints(Mod) ]),
+
+    "-export([\n  " ++
+    sc_list:implode(",\n  ", [ fun_export(Fun, Arity) || {Fun, Arity} <- Cleaned ])
+    ++ "\n]).".
