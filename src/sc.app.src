@@ -1,0 +1,15 @@
+%% -*- mode: erlang -*-
+{application, sc,
+ [
+  {description, "John Haugeland's sc library"},
+  {vsn, "3.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  %% uncomment if this is an active application
+  %% {mod, { example_project_app, []}},
+  {env, []}
+ ]}.
+%% vim: set filetype=erlang tabstop=2
