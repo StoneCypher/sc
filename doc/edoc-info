@@ -1,4 +1,5 @@
 %% encoding: UTF-8
 {application,sc}.
 {packages,[]}.
-{modules,[crap_json,deepak_chopra,forest_belton,sc,sc_list,sc_math]}.
+{modules,[crap_json,deepak_chopra,forest_belton,sc,sc_anscombes_quartet,
+          sc_fisher_iris,sc_list,sc_math]}.
