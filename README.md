@@ -1,7 +1,7 @@
 sc
 ==
 
-Version 3 of John's `sc' library.  Extensive and well tested.
+Version 3 of John's `sc` library.  Extensive and well tested.
 
 
 
@@ -41,7 +41,7 @@ Author
 Copyright
 ---------
 
-Copyright (c) 2008-, v3 2014-current John Haugeland.  All rights reserved.
+Copyright &copy; 2008-, v3 2014-current John Haugeland.  All rights reserved.
 
 
 
