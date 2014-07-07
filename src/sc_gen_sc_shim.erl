@@ -8,7 +8,8 @@
 -export([
 
     arg_list/1,
-    fun_forward/3
+    fun_forward/3,
+    forward_module/1
 
 ]).
 
@@ -31,3 +32,11 @@ fun_forward(Mod, Fun, Arity) ->
     FArgs = arg_list(Arity),
 
     FName ++ "(" ++ FArgs ++ ") -> " ++ FMod ++ ":" ++ FName ++ "(" ++ FArgs ++ ")".
+
+
+
+
+
+forward_module(Mod) ->
+
+    sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity) || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ]) ++ ".".
