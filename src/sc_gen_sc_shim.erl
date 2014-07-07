@@ -9,7 +9,8 @@
 
     arg_list/1,
     fun_forward/3,
-    forward_module/1
+    forward_module/1,
+    fun_export/2
 
 ]).
 
@@ -40,3 +41,11 @@ fun_forward(Mod, Fun, Arity) ->
 forward_module(Mod) ->
 
     sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity) || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ]) ++ ".".
+
+
+
+
+
+fun_export(Fun, Arity) ->
+
+    atom_to_list(Fun) ++ "/" ++ integer_to_list(Arity).
