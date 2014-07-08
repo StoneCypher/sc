@@ -9,7 +9,7 @@
 
     arg_list/1,
 
-    fun_forward/3,
+    fun_forward/4,
     forward_module/1,
 
     fun_export/2,
@@ -31,13 +31,22 @@ arg_list(N) ->
 
 
 
-fun_forward(Mod, Fun, Arity) -> 
+fun_forward(Mod, Fun, Arity, Width) -> 
 
     FMod  = atom_to_list(Mod),
     FName = atom_to_list(Fun),
     FArgs = arg_list(Arity),
+    FBase = string:left(FName ++ "(" ++ FArgs ++ ")", Width, $ ),
 
-    FName ++ "(" ++ FArgs ++ ") -> " ++ FMod ++ ":" ++ FName ++ "(" ++ FArgs ++ ")".
+    FBase ++ " -> " ++ FMod ++ ":" ++ FName ++ "(" ++ FArgs ++ ")".
+
+
+
+
+
+written_length(Fun, Arity) ->
+
+    length(atom_to_list(Fun)) + length(arg_list(Arity)) + 2.
 
 
 
@@ -45,7 +54,10 @@ fun_forward(Mod, Fun, Arity) ->
 
 forward_module(Mod) ->
 
-    sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity) || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ]) ++ ".".
+    FunArity = [ {Fun, Arity} || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ],
+    Width    = sc_list:max([ written_length(Fun, Arity) || {Fun, Arity} <- FunArity ]),
+
+    sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity, Width) || {Fun, Arity} <- FunArity ]) ++ ".".
 
 
 
@@ -79,6 +91,6 @@ create(RealMod, ModList) ->
 
 
 
-%write_out(Mod, Location) ->
+%write_out(Mod, ModList, Location) ->
 
 %    file:
