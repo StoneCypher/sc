@@ -13,7 +13,9 @@
     forward_module/1,
 
     fun_export/2,
-    export_module/1
+    export_module/1,
+
+    create/2
 
 ]).
 
@@ -61,6 +63,22 @@ export_module(Mod) ->
 
     Cleaned = lists:usort([ {Fu,Ar} || {Fu, Ar, _, _} <- sc:entrypoints(Mod) ]),
 
-    "-export([\n  " ++
-    sc_list:implode(",\n  ", [ fun_export(Fun, Arity) || {Fun, Arity} <- Cleaned ])
-    ++ "\n]).".
+    sc_list:implode(",\n  ", [ fun_export(Fun, Arity) || {Fun, Arity} <- Cleaned ]).
+
+
+
+
+
+create(RealMod, ModList) ->
+
+    "\n-module(" ++ atom_to_list(RealMod) ++ ").\n\n\n\n-export([\n\n  " ++
+    sc:implode(",\n\n  ", [ export_module(Mod)  || Mod <- ModList ]) ++ "\n\n]).\n\n\n\n" ++ 
+    sc:implode("\n\n",    [ forward_module(Mod) || Mod <- ModList ]) ++ "\n".
+
+
+
+
+
+%write_out(Mod, Location) ->
+
+%    file:
