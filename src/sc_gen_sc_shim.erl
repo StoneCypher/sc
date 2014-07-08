@@ -54,7 +54,7 @@ written_length(Fun, Arity) ->
 
 forward_module(Mod) ->
 
-    FunArity = [ {Fun, Arity} || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ],
+    FunArity = [ {Fun, Arity} || {Fun, Arity, _, _} <- lists:keysort(1, sc:entrypoints(Mod)) ],
     Width    = sc_list:max([ written_length(Fun, Arity) || {Fun, Arity} <- FunArity ]),
 
     sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity, Width) || {Fun, Arity} <- FunArity ]) ++ ".".
