@@ -15,7 +15,8 @@
     fun_export/2,
     export_module/1,
 
-    create/2
+    create/2,
+    write_to/3
 
 ]).
 
@@ -91,6 +92,6 @@ create(RealMod, ModList) ->
 
 
 
-%write_out(Mod, ModList, Location) ->
+write_to(Target, RealMod, ModList) ->
 
-%    file:
+    file:write_file(Target, create(RealMod, ModList)).
