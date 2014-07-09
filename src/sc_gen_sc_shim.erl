@@ -58,6 +58,7 @@ forward_module(Mod) ->
     FunArity = lists:keysort(1, lists:usort([ {Fun, Arity} || {Fun, Arity, _, _} <- sc:entrypoints(Mod) ])),
     Width    = sc_list:max([ written_length(Fun, Arity) || {Fun, Arity} <- FunArity ]),
 
+    "% Module forwards for " ++ atom_to_list(Mod) ++ ":\n" ++
     sc_list:implode(".\n", [ fun_forward(Mod, Fun, Arity, Width) || {Fun, Arity} <- FunArity ]) ++ ".".
 
 
@@ -76,6 +77,7 @@ export_module(Mod) ->
 
     Cleaned = lists:usort([ {Fu,Ar} || {Fu, Ar, _, _} <- sc:entrypoints(Mod) ]),
 
+    "% Module exports for " ++ atom_to_list(Mod) ++ ":\n  " ++
     sc_list:implode(",\n  ", [ fun_export(Fun, Arity) || {Fun, Arity} <- Cleaned ]).
 
 
@@ -84,7 +86,7 @@ export_module(Mod) ->
 
 create(RealMod, ModList) ->
 
-    "\n-module(" ++ atom_to_list(RealMod) ++ ").\n\n\n\n-export([\n\n  " ++
+    "\n-module(" ++ atom_to_list(RealMod) ++ ").\n\n\n\n-export([\n\n  "                  ++
     sc:implode(",\n\n  ", [ export_module(Mod)  || Mod <- ModList ]) ++ "\n\n]).\n\n\n\n" ++ 
     sc:implode("\n\n",    [ forward_module(Mod) || Mod <- ModList ]) ++ "\n".
 
